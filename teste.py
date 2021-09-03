@@ -24,6 +24,7 @@ for item01 in topologia_arquivo_smart :
             print('==INTERFACES')
             for item03 in item02['nomes_interfaces'] :                
                 print('  INTERFACE: {0}'.format(item03.split('#')[0]))
+                print('    INTERFACE: {0}, com HOST: {1}, atraves do CIRCUITO: {2}'.format(item03.split('#')[0],item03.split('#')[1].split(' - ')[0],item03.split('#')[1].split(' - ')[1]))
 
         elif (item02['tipo'] == 'bgp'):
             for item03 in item02['ip_vizinhos'] :
