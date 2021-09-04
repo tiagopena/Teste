@@ -17,9 +17,27 @@ print('= ORIGINAL ========================================================')
 print(topologia_arquivo_smartlog)
 print('===================================================================')
 
+
 def inclui_registro (cidade, host, ip_gerenciamento, membro, interface_local, circuito, operadora, ip_interface, ip_vizinho, nas):
     for json02 in topologia_arquivo_smartlog['localidade'] :
-        if json02['cidade'] == cidade:
+        if json02['cidade'] != cidade:
+            json02['cidade'] = cidade
+            for json03 in json02['equipamento'] :
+                json03['host'] = host
+                json03['ip_gerenciamento'] = ip_gerenciamento
+                # Faltando verificar igualdade de ip de gerencia
+                for json04 in json03['par'] :
+                    json04['membro'] = membro
+                    json04['interface_local'] = interface_local
+                    json04['ip_interface'] = ip_interface
+                    json04['ip_vizinho'] = ip_vizinho
+                    json04['circuito'] = circuito
+                    json04['operadora'] = operadora
+                    json04['as'] = nas
+                    
+                    #json03['par'].append(json04)
+
+        else:
             print('Entrou em Localidade IGUAL')
             for json03 in json02['equipamento'] :
                 if json03['host'] == host :
@@ -39,27 +57,6 @@ def inclui_registro (cidade, host, ip_gerenciamento, membro, interface_local, ci
                             json04['as'] = nas
 
                             #json03['par'].append(json04)
-
-                            print('PREENCHIDO ==============================================')
-                            print(topologia_arquivo_smartlog)
-                            print('*========================================================')
-
-        else:
-            json02['cidade'] = cidade
-            for json03 in json02['equipamento'] :
-                json03['host'] = host
-                json03['ip_gerenciamento'] = ip_gerenciamento
-                # Faltando verificar igualdade de ip de gerencia
-                for json04 in json03['par'] :
-                    json04['membro'] = membro
-                    json04['interface_local'] = interface_local
-                    json04['ip_interface'] = ip_interface
-                    json04['ip_vizinho'] = ip_vizinho
-                    json04['circuito'] = circuito
-                    json04['operadora'] = operadora
-                    json04['as'] = nas
-                    
-                    #json03['par'].append(json04)
 
         topologia_arquivo_smartlog['localidade'].append(json02)
 
