@@ -14,6 +14,7 @@ print('====== INICIO DA EXECUCAO ========================================')
 
 for item01 in topologia_arquivo_smart :
     print('=============================================================')
+    print('=============')
     print('CIDADE:      {0}'.format(item01['grupo']))
     print('HOST:        {0}'.format(item01['nome']))
     print('IP_GERENCIA: {0}'.format(item01['ip_gerencia']))
@@ -34,6 +35,18 @@ for item01 in topologia_arquivo_smart :
             print('  TESTE PING')
             for item03 in item02['ips_testar'] :
                 print('    Testar para IP: {0}, que ta na INTERFACE: {1}, com HOST: {2}, atraves do CIRCUITO: {3}, da OPERADORA: {4}'.format( item03.split('|')[0], item03.split('|')[1].split('#')[0], item03.split('|')[1].split('#')[1].split(' - ')[0], item03.split('|')[1].split('#')[1].split(' - ')[1], item03.split('|')[1].split('#')[1].split(' - ')[1].split(' ')[0] ))
+            print('==INTERFACES')
+            for item03 in item02['nomes_interfaces'] :                
+                print('  INTERFACE: {0}'.format(item03.split('#')[0]))
+                print('    INTERFACE: {0}, com HOST: {1}, atraves do CIRCUITO: {2}'.format(item03.split('#')[0],item03.split('#')[1].split(' - ')[0],item03.split('#')[1].split(' - ')[1]))
+
+        elif (item02['tipo'] == 'bgp'):
+            for item03 in item02['ip_vizinhos'] :
+                print(item03)
+
+        elif (item02['tipo'] == 'ping'):
+            for item03 in item02['ips_testar'] :
+                print(item03)
         
 
         
@@ -49,6 +62,11 @@ for item01 in topologia_arquivo_smart :
     
 
     #elemento_depois.append(elemento_antes)
+    elemento_antes = [item01['grupo'], item01['nome'], item01['ip_gerencia']] 
+
+    
+
+    elemento_depois.append(elemento_antes)
 
 
 
@@ -56,6 +74,9 @@ for item01 in topologia_arquivo_smart :
 #data = {}
 #data['ambiente'] = 'CRBB'
 #json_data = json.dumps(data)
+data = {}
+data['ambiente'] = 'CRBB'
+json_data = json.dumps(data)
 
 
 

@@ -37,10 +37,10 @@ for item01 in topologia_arquivo_smart :
     print('HOST:        {0}'.format(item01['nome']))
     print('IP_GERENCIA: {0}'.format(item01['ip_gerencia']))
 
-    for json01 in raiz :
-        for json02
-        if (json01['localidade'] == item01['grupo']):
-            for json02 in json01
+    #for json01 in raiz :
+    #    for json02
+    #    if (json01['localidade'] == item01['grupo']):
+    #        for json02 in json01
 
 
     
@@ -60,6 +60,30 @@ for item01 in topologia_arquivo_smart :
             print('  TESTE PING')
             for item03 in item02['ips_testar'] :
                 print('    Testar para IP: {0}, que ta na INTERFACE: {1}, com HOST: {2}, atraves do CIRCUITO: {3}, da OPERADORA: {4}'.format( item03.split('|')[0], item03.split('|')[1].split('#')[0], item03.split('|')[1].split('#')[1].split(' - ')[0], item03.split('|')[1].split('#')[1].split(' - ')[1], item03.split('|')[1].split('#')[1].split(' - ')[1].split(' ')[0] ))
+
+
+
+
+
+    for json01 in raiz :
+        for json02 in json01['localidade'] :
+            if json02['cidade'] == item01['grupo']:
+                for json03 in json02['equipamento'] :
+                    if json03['host'] == item01['nome'] :
+                        # Faltando verificar igualdade de ip de gerencia
+                        for json04 in json03['par'] :
+                            if json04['membro'] == 'XXX MEMBRO XXX' :
+                                print('Este item já existe')
+                            else:
+                                json04['membro'] = 'XXX XXXXX XXX'
+                                json04['interface_local'] = 'XXX XXXXX XXX'
+                                json04['ip_interface'] = 'XXX XXXXX XXX'
+                                json04['ip_vizinho'] = 'XXX XXXXX XXX'
+                                json04['circuito'] = 'XXX XXXXX XXX'
+                                json04['operadora'] = 'XXX XXXXX XXX'
+                                json04['as'] = 'XXX XXXXX XXX'
+                                json04.append()
+
 
         
         
