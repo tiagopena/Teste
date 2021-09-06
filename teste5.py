@@ -13,9 +13,9 @@ with open('/opt/gprommonitoracao/SMARTLOG/Smartlog_Beta/app_ConsultaLog/static/e
 
 #print('==============================================')
 #print(topologia_arquivo_smart)
-print('= ORIGINAL ========================================================')
-print(topologia_arquivo_smartlog)
-print('===================================================================')
+#print('= ORIGINAL ========================================================')
+#print(topologia_arquivo_smartlog)
+#print('===================================================================')
 
 
 def inclui_registro (cidade, host, ip_gerenciamento, membro, interface_local, circuito, operadora, ip_interface, ip_vizinho, nas):
@@ -27,6 +27,7 @@ def inclui_registro (cidade, host, ip_gerenciamento, membro, interface_local, ci
                 json03['ip_gerenciamento'] = ip_gerenciamento
                 # Faltando verificar igualdade de ip de gerencia
                 for json04 in json03['par'] :
+                    
                     json04['membro'] = membro
                     json04['interface_local'] = interface_local
                     json04['ip_interface'] = ip_interface
@@ -34,9 +35,19 @@ def inclui_registro (cidade, host, ip_gerenciamento, membro, interface_local, ci
                     json04['circuito'] = circuito
                     json04['operadora'] = operadora
                     json04['as'] = nas
-                    
-                    #json03['par'].append(json04)
 
+                    json03['par'].append(json04)
+
+                    print('for')
+
+                json02['equipamento'].append(json03)
+
+            topologia_arquivo_smartlog['localidade'].append(json02)
+
+        print(topologia_arquivo_smartlog['localidade'])
+
+                    #topologia_arquivo_smartlog['localidade'].append(json02)
+""" 
         else:
             print('Entrou em Localidade IGUAL')
             for json03 in json02['equipamento'] :
@@ -58,16 +69,14 @@ def inclui_registro (cidade, host, ip_gerenciamento, membro, interface_local, ci
 
                             #json03['par'].append(json04)
 
-        topologia_arquivo_smartlog['localidade'].append(json02)
-
+            #topologia_arquivo_smartlog['localidade'].append(json02)
+ """
 
             #print('PREENCHIDO ==============================================')
             #print(topologia_arquivo_smartlog)
             #print('*========================================================')
 
-    print('FINAL ==================================================')
-    print(topologia_arquivo_smartlog)
-    print('*========================================================')
+
 
 inclui_registro (
     'Brasilia1',
@@ -94,3 +103,7 @@ inclui_registro (
     'ip_vizinho2',
     'nas2'
     )
+
+print('FINAL ==================================================')
+print(topologia_arquivo_smartlog)
+print('*========================================================')
