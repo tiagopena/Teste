@@ -19,7 +19,6 @@ registro_vazio = {
     ]
 }
 
-
 localidade = {
     "cidade" : "",
     "equipamento" : []
@@ -42,7 +41,6 @@ par = {
     "as" : ""
     }
 
-
 for item01 in topologia_arquivo_smart:
 
     cidade = item01['grupo']
@@ -54,8 +52,7 @@ for item01 in topologia_arquivo_smart:
     lista_bgp = []
     y2 = []
     z3 = []
-    
-    
+        
     for item02 in item01['testes']:
         
         if (item02['tipo'] == 'interface'):
