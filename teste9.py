@@ -28,7 +28,7 @@ localidade_desagregada = []
 equipamento = []
 cidades = ['BRASILIA', 'SAO PAULO', 'RIO DE JANEIRO', 'SAO JOSE DOS PINHAIS', 'SALVADOR', 'BELO HORIZONTE']
 
-def cria_todos_hosts (host, ip_gerenciamento, grupo, membro, interface_local, circuito, operadora):
+def insere_host (host, ip_gerenciamento, grupo, membro, interface_local, circuito, operadora):
 
     item = {
         'cidade' : grupo,
@@ -76,38 +76,64 @@ def agrega_equipamento(host):
 
     return(x)
 
+###############################################################
+# - Recebe a topologia inicial do SMART e transforma em itens
+#   do para o SMARTLOG apenas separados por cidade
+def retorna_itens_por_cidade_desagregado (topologia_arquivo_smart):
+    for item01 in topologia_arquivo_smart :
+        host = item01['nome']
+        ip_gerenciamento = item01['ip_gerencia']
 
-for item01 in topologia_arquivo_smart :
-    host = item01['nome']
-    ip_gerenciamento = item01['ip_gerencia']
+        if (item01['grupo'] == 'BSB-CCT-I') or (item01['grupo'] == 'BSB-CCT-II'):
+            cidade = 'BRASILIA'
+        elif (item01['grupo'] == 'SP-VD') or (item01['grupo'] == 'SP-AP'):
+            cidade = 'SAO PAULO'
+        elif (item01['grupo'] == 'RJ-TL') or (item01['grupo'] == 'RJ-SD'):
+            cidade = 'RIO DE JANEIRO'
+        elif (item01['grupo'] == 'SJP'):
+            cidade = 'SAO JOSE DOS PINHAIS'
+        elif (item01['grupo'] == 'SDR'):
+            cidade = 'SALVADOR'
+        elif (item01['grupo'] == 'BHE'):
+            cidade = 'BELO HORIZONTE'
+        else:
+            cidade = 'nulo'
 
-    if (item01['grupo'] == 'BSB-CCT-I') or (item01['grupo'] == 'BSB-CCT-II'):
-        cidade = 'BRASILIA'
-    elif (item01['grupo'] == 'SP-VD') or (item01['grupo'] == 'SP-AP'):
-        cidade = 'SAO PAULO'
-    elif (item01['grupo'] == 'RJ-TL') or (item01['grupo'] == 'RJ-SD'):
-        cidade = 'RIO DE JANEIRO'
-    elif (item01['grupo'] == 'SJP'):
-        cidade = 'SAO JOSE DOS PINHAIS'
-    elif (item01['grupo'] == 'SDR'):
-        cidade = 'SALVADOR'
-    elif (item01['grupo'] == 'BHE'):
-        cidade = 'BELO HORIZONTE'
-    else:
-        cidade = 'nulo'
+        for item02 in item01['testes']:
+            if item02['tipo'] == 'interface':
+                for item03 in item02['nomes_interfaces']:
+                    membro = item03.split('#')[1].split(' - ')[0]
+                    interface_local = item03.split('#')[0]
+                    circuito = item03.split('#')[1].split(' - ')[1]
+                    operadora = item03.split('#')[1].split(' - ')[1].split(' ')[0]
 
-    for item02 in item01['testes']:
-        if item02['tipo'] == 'interface':
-            for item03 in item02['nomes_interfaces']:
-                membro = item03.split('#')[1].split(' - ')[0]
-                interface_local = item03.split('#')[0]
-                circuito = item03.split('#')[1].split(' - ')[1]
-                operadora = item03.split('#')[1].split(' - ')[1].split(' ')[0]
+                    lista_itens_por_cidade_desagregado = insere_host (host, ip_gerenciamento, cidade, membro, interface_local, circuito, operadora)
 
-                localidade_desagregada = cria_todos_hosts (host, ip_gerenciamento, cidade, membro, interface_local, circuito, operadora)
+    return(lista_itens_por_cidade_desagregado)
 
-for item01 in cidades :
-    localidade_equipamento_desagregado.append(agrega_localidade(item01))
+def retorna_itens_por_cidade_agregado (retorna_itens_por_cidade_desagregado):
+    cidade = []
+    retorna_equipamentos = []
+    for item01 in retorna_itens_por_cidade_desagregado:
+        if item01['cidade'] not in cidade:
+            cidade.append(item01['cidade'])
+
+    for item02 in cidade:
+        retorna_equipamentos.append(agrega_localidade(item02))
+
+    return(retorna_equipamentos)
+
+
+
+
+
+
+itens_por_cidades_desagregado = retorna_itens_por_cidade_desagregado(topologia_arquivo_smart)
+itens_por_cidades_agregado = retorna_itens_por_cidade_agregado(itens_por_cidades_desagregado)
+print(itens_por_cidades_agregado)
+
+
+#print(retorna_itens_por_cidade(topologia_arquivo_smart))
 
 
 #print(localidade_equipamento_desagregado)
@@ -118,4 +144,4 @@ for item01 in cidades :
 #agrega_localidade('SALVADOR')
 #print(agrega_localidade('SALVADOR'))
 
-print(agrega_equipamento("SWBSA01-BACK-01"))
+#print(agrega_equipamento("SWBSA01-BACK-01"))
