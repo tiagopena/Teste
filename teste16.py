@@ -67,6 +67,23 @@ def agrega_cidade (cidade):
                 'ip_gerenciamento' : item01['ip_gerencia'],
                 'par' : []
                 }
+
+            for item02 in item01['testes']:
+                #print('entrou no for')
+                if item02['tipo'] == 'interface':
+                    for item03 in item02['nomes_interfaces']:
+                        par = {
+                            'membro' : item03.split('#')[1].split(' - ')[0],
+                            'interface_local' : item03.split('#')[0],
+                            'ip_interface' : 'OUTRO FOR',
+                            'ip_vizinho' : 'OUTRO FOR',
+                            'circuito' : item03.split('#')[1].split(' - ')[1],
+                            'operadora' : item03.split('#')[1].split(' - ')[1].split(' ')[0],
+                            'as' : 'AS'
+                            }
+
+                        equipamento['par'].append(par)
+
             localidade['equipamento'].append(equipamento)
 
     topologia_final_smartlog['localidade'].append(localidade)

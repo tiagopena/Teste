@@ -24,7 +24,7 @@ topologia_final_smartlog = {
         'localidade' : []
         }
 
-
+# - Altera o conteudo do GRUPO para CIDADE
 for item01 in topologia_original_smart:
     if (item01['grupo'] == 'BSB-CCT-I') or (item01['grupo'] == 'BSB-CCT-II'):
         item01['grupo'] = 'BRASILIA'
@@ -41,20 +41,16 @@ for item01 in topologia_original_smart:
     else:
         item01['grupo'] = 'nulo'
 
-cidade = []
-host = []
-membro = []
-
+# - Cria uma lista com cidades para indexar
+#   a nova topologia
+cidades = []
 for item01 in topologia_original_smart:
-    if item01['grupo'] not in cidade:
-        cidade.append(item01['grupo'])
-    if item01['nome'] not in host:
-        host.append(item01['nome'])
-    for item02 in item01['testes']:
-        if item02['tipo'] == 'interface':
-            for item03 in item02['nomes_interfaces']:
-                membro.append(item03.split('#')[1].split(' - ')[0])
+    if item01['grupo'] not in cidades:
+        cidades.append(item01['grupo'])
 
+# - Funcao que recebe a cidade da LISTA CIDADES,
+#   indexa a nova topologia, e preenche os itens
+#   da mesma.
 def agrega_cidade (cidade):
     localidade = {
         'cidade' : cidade,
@@ -67,14 +63,31 @@ def agrega_cidade (cidade):
                 'ip_gerenciamento' : item01['ip_gerencia'],
                 'par' : []
                 }
+            for item02 in item01['testes']:
+                if item02['tipo'] == 'interface':
+                    for item03 in item02['nomes_interfaces']:
+                        par = {
+                            'membro' : item03.split('#')[1].split(' - ')[0],
+                            'interface_local' : item03.split('#')[0],
+                            'ip_interface' : 'OUTRO FOR',
+                            'ip_vizinho' : 'OUTRO FOR',
+                            'circuito' : item03.split('#')[1].split(' - ')[1],
+                            'operadora' : item03.split('#')[1].split(' - ')[1].split(' ')[0],
+                            'as' : 'AS'
+                            }
+
+                        equipamento['par'].append(par)
+
             localidade['equipamento'].append(equipamento)
 
     topologia_final_smartlog['localidade'].append(localidade)
 
-for item01 in cidade:
+# - Chama a funcao e cria a nova topologia
+for item01 in cidades:
     agrega_cidade(item01)
 
 
-           
 
-print(topologia_final_smartlog)
+with open('/opt/gprommonitoracao/SMARTLOG/Smartlog_Beta/app_ConsultaLog/static/entradas/renav7.json', 'w', encoding='utf-8') as arquivo_novo_json_smartlog:
+    json.dump(topologia_final_smartlog, arquivo_novo_json_smartlog, ensure_ascii=False, indent=2)
+    arquivo_novo_json_smartlog.close()

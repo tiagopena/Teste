@@ -45,13 +45,13 @@ def cria_topologia_01_do_smartlog (topologia_original_smart):
         localidade = {
             'cidade' : cidade,
             'equipamento' : []
-        }
-        for item02 in item01['testes']:
-            equipamento = {
-                'host' : host,
-                'ip_gerenciamento' : ip_gerenciamento,
-                'par' : []
-                }
+            }
+        equipamento = {
+            'host' : host,
+            'ip_gerenciamento' : ip_gerenciamento,
+            'par' : []
+            }
+        for item02 in item01['testes']:            
             if item02['tipo'] == 'interface':
                 for item03 in item02['nomes_interfaces']:
                     membro = item03.split('#')[1].split(' - ')[0]
@@ -79,12 +79,6 @@ def cria_topologia_01_do_smartlog (topologia_original_smart):
         topologia_final_smartlog['localidade'].append(localidade)
 
     # - Finaliza a topologia em sua ultima versao
-    for item01 in topologia_final_smartlog:
-        cidades = []
-        for item02 in item01['localidade']:
-            if item02['cidade'] not in cidades:
-                cidades.append(item02['cidade'])
-                novo_equipamento = item02['equipamento']
 
 
     return(topologia_final_smartlog)
