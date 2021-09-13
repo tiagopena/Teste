@@ -5,10 +5,6 @@ with open('/opt/gprommonitoracao/monitora_dispositivos/ambientes/renav/configura
     topologia_original_smart = json.load(arquivo_json_smart)
     arquivo_json_smart.close()
 
-#with open('/opt/gprommonitoracao/SMARTLOG/Smartlog_Beta/app_ConsultaLog/static/entradas/renav4.json') as arquivo_json_smartlog:
-#    topologia_modificada_smartlog = json.load(arquivo_json_smartlog)
-#    arquivo_json_smartlog.close()
-
 topologia_final_smartlog = {
         'ambiente' : 'RENAV',
         'teste' : [
@@ -85,7 +81,6 @@ def agrega_cidade (cidade):
 # - Chama a funcao e cria a nova topologia
 for item01 in cidades:
     agrega_cidade(item01)
-
 
 
 with open('/opt/gprommonitoracao/SMARTLOG/Smartlog_Beta/app_ConsultaLog/static/entradas/renav7.json', 'w', encoding='utf-8') as arquivo_novo_json_smartlog:
