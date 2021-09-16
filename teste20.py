@@ -7,7 +7,7 @@ import sys
 def retorna_resultado_consulta_topologia (ambiente):
     
     with open('/opt/gprommonitoracao/monitora_dispositivos/ambientes/' + ambiente.lower() + '/configuracao/topologia_rede.json', 'rb') as arquivo_json_smart:
-        topologia_original_smart = json.load(arquivo_json_smart)      
+        #topologia_original_smart = json.load(arquivo_json_smart)      
 
         # BUF_SIZE is totally arbitrary, change for your app!
         BUF_SIZE = 65536  # lets read stuff in 64kb chunks!
@@ -21,6 +21,8 @@ def retorna_resultado_consulta_topologia (ambiente):
             md5.update(data)
     
         arquivo_json_smart.close()
+
+    
 
     resultado_hash = format(md5.hexdigest())
     
@@ -38,3 +40,4 @@ def retorna_resultado_consulta_topologia (ambiente):
 
 
 print(retorna_resultado_consulta_topologia('RENAV'))
+print(retorna_resultado_consulta_topologia('EXTRANET'))
