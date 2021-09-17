@@ -1,0 +1,28 @@
+{
+    "ambiente":"RENAV",
+    "teste": [
+        "Interface - estado",
+        "Interface - pacotes com erro"
+    ],
+    "localidade" : [
+        {
+            "cidade": "",
+            "equipamento": [
+                {
+                    "host":"",
+                    "ip_gerenciamento":"",
+                    "par": [
+                        {
+                            "membro":"",
+                            "interface_local":"",
+                            "ip_interface":"",
+                            "circuito":"",
+                            "operadora":"",
+                            "as":""
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
